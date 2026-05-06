@@ -1,0 +1,43 @@
+---
+// Giscus 评论组件
+// 配置参考：https://giscus.app/
+---
+
+<section class="giscus mt-12"></section>
+
+<script
+  is:inline
+  src="https://giscus.app/client.js"
+  data-repo="survivorff/blog"
+  data-repo-id="REPO_ID_PLACEHOLDER"
+  data-category="Announcements"
+  data-category-id="CATEGORY_ID_PLACEHOLDER"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async></script>
+
+<script is:inline>
+  // 在主题切换时同步更新 giscus 主题
+  function updateGiscusTheme() {
+    const theme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const iframe = document.querySelector("iframe.giscus-frame");
+    if (!iframe) return;
+    iframe.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app"
+    );
+  }
+
+  const observer = new MutationObserver(updateGiscusTheme);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+</script>

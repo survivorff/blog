@@ -6,7 +6,7 @@ slug: hello-world
 featured: true
 draft: false
 tags:
-  - 随笔
+  - thoughts
 description: 新博客的第一篇。关于我是谁、为什么写博客、会写什么。
 ---
 
