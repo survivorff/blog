@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
+import MermaidInit from "@/components/MermaidInit.astro";
 import { SITE } from "@/config";
 import "@/styles/global.css";
 
@@ -172,5 +173,8 @@ const structuredData = {
 
     <!-- Load full theme logic -->
     <script src="../scripts/theme.ts"></script>
+
+    <!-- Mermaid diagram support -->
+    <MermaidInit />
   </body>
 </html>

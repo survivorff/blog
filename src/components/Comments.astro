@@ -26,7 +26,8 @@
 <script is:inline>
   // 在主题切换时同步更新 giscus 主题
   function updateGiscusTheme() {
-    const theme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const theme =
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light";
     const iframe = document.querySelector("iframe.giscus-frame");
     if (!iframe) return;
     iframe.contentWindow?.postMessage(

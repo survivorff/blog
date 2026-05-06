@@ -1,16 +1,30 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
+import ReadingTime from "./ReadingTime.astro";
 
 type Props = {
   variant?: "h2" | "h3";
 } & CollectionEntry<"blog">;
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const post = Astro.props;
+const { variant: Heading = "h2", id, data, filePath } = post;
 
 const { title, description, ...props } = data;
+
+// 从 remark 插件注入的 frontmatter 中取阅读时间
+let readingMinutes = 1;
+try {
+  const { remarkPluginFrontmatter } = await render(post);
+  const rt = remarkPluginFrontmatter?.readingTime as number | undefined;
+  if (typeof rt === "number" && rt > 0) {
+    readingMinutes = rt;
+  }
+} catch {
+  readingMinutes = 1;
+}
 ---
 
 <li class="my-6">
@@ -28,6 +42,9 @@ const { title, description, ...props } = data;
       {title}
     </Heading>
   </a>
-  <Datetime {...props} />
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+    <Datetime {...props} />
+    <ReadingTime minutes={readingMinutes} />
+  </div>
   <p>{description}</p>
 </li>

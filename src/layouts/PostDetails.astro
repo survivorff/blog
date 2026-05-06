@@ -10,6 +10,8 @@ import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import Comments from "@/components/Comments.astro";
+import ReadingTime from "@/components/ReadingTime.astro";
+import SeriesNav from "@/components/SeriesNav.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -36,7 +38,8 @@ const {
   hideEditPost,
 } = post.data;
 
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
+const readingMinutes = (remarkPluginFrontmatter?.readingTime as number) ?? 1;
 
 let ogImageUrl: string | undefined;
 
@@ -97,8 +100,9 @@ const nextPost =
     >
       {title}
     </h1>
-    <div class="my-2 flex items-center gap-2">
+    <div class="my-2 flex flex-wrap items-center gap-x-3 gap-y-1">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      <ReadingTime minutes={readingMinutes} size="lg" />
       <span
         aria-hidden="true"
         class:list={[
@@ -112,6 +116,7 @@ const nextPost =
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
     >
+      <SeriesNav currentPost={post} allPosts={posts} />
       <Content />
     </article>
 

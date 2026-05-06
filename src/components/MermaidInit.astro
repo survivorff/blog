@@ -1,0 +1,54 @@
+---
+// 在每个文章页加载 Mermaid，将 ```mermaid 代码块渲染为图表
+// 仅在页面中存在 <pre><code class="language-mermaid"> 时才加载 mermaid 脚本
+---
+
+<script is:inline>
+  async function renderMermaid() {
+    const codeBlocks = document.querySelectorAll("pre > code.language-mermaid");
+    if (codeBlocks.length === 0) return;
+
+    // 动态导入 mermaid，仅在需要时加载
+    const mermaid = (
+      await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")
+    ).default;
+
+    const theme =
+      document.documentElement.dataset.theme === "dark" ? "dark" : "default";
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme,
+      securityLevel: "loose",
+      fontFamily: "inherit",
+    });
+
+    codeBlocks.forEach((codeEl, index) => {
+      const code = codeEl.textContent || "";
+      const pre = codeEl.parentElement;
+      if (!pre) return;
+
+      const container = document.createElement("div");
+      container.className =
+        "mermaid-diagram my-6 flex justify-center overflow-x-auto";
+      const id = `mermaid-${Date.now()}-${index}`;
+
+      mermaid
+        .render(id, code)
+        .then(({ svg }) => {
+          container.innerHTML = svg;
+          pre.replaceWith(container);
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.error("Mermaid render error:", err);
+          const errBox = document.createElement("pre");
+          errBox.className = "text-red-500 text-sm";
+          errBox.textContent = `Mermaid render failed: ${err.message || err}`;
+          pre.replaceWith(errBox);
+        });
+    });
+  }
+
+  document.addEventListener("astro:page-load", renderMermaid);
+</script>

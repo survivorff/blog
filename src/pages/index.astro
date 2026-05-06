@@ -10,7 +10,7 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+import { SOCIALS, PROJECTS } from "@/constants";
 
 const posts = await getCollection("blog");
 
@@ -22,7 +22,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
+    <section id="hero" class:list={["pt-8 pb-8", "border-b border-border"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
         你好 👋
       </h1>
@@ -45,24 +45,8 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         这里是 <strong>survivorff</strong> 的技术博客。
       </p>
       <p class="mt-2">
-        交易所工程师，EVM & Solana 双链开发者。
-        记录链上技术、交易系统、行业观察。
-      </p>
-      <p class="mt-2">
-        相关项目：
-        <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/survivorff/meme-trade-wiki"
-        >
-          Meme Trade Wiki
-        </LinkButton>
-        ·
-        <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/survivorff/web3-insider"
-        >
-          Web3 Insider
-        </LinkButton>
+        交易所工程师，EVM & Solana
+        双链开发者。记录链上技术、交易系统、行业观察。
       </p>
       {
         SOCIALS.length > 0 && (
@@ -75,11 +59,51 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     </section>
 
     {
+      PROJECTS.length > 0 && (
+        <section id="projects" class="border-b border-border pt-10 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">项目</h2>
+          <p class="mt-2 text-sm opacity-75">公开的知识库和技术实验。</p>
+          <ul class="mt-5 grid gap-4 sm:grid-cols-2">
+            {PROJECTS.map(project => (
+              <li class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30">
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group block"
+                >
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">{project.icon}</span>
+                    <h3 class="text-lg font-semibold group-hover:text-accent">
+                      {project.name}
+                    </h3>
+                  </div>
+                  <p class="mt-2 line-clamp-3 text-sm opacity-80">
+                    {project.desc}
+                  </p>
+                  {project.tags && project.tags.length > 0 && (
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      {project.tags.map(tag => (
+                        <span class="rounded-md border border-border px-2 py-0.5 text-xs opacity-70">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
       featuredPosts.length > 0 && (
         <section
           id="featured"
           class:list={[
-            "pt-12 pb-6",
+            "pt-10 pb-6",
             { "border-b border-border": recentPosts.length > 0 },
           ]}
         >
@@ -95,7 +119,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
     {
       recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
+        <section id="recent-posts" class="pt-10 pb-6">
           <h2 class="text-2xl font-semibold tracking-wide">最近文章</h2>
           <ul>
             {recentPosts.map(

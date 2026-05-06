@@ -20,6 +20,13 @@ const blog = defineCollection({
       canonicalURL: z.string().optional(),
       hideEditPost: z.boolean().optional(),
       timezone: z.string().optional(),
+      // 系列支持：同一 series.name 的文章会作为一个系列互相导航
+      series: z
+        .object({
+          name: z.string(),
+          order: z.number(),
+        })
+        .optional(),
     }),
 });
 
