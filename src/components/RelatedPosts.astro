@@ -1,0 +1,41 @@
+---
+import { type CollectionEntry } from "astro:content";
+import { getPath } from "@/utils/getPath";
+import Datetime from "./Datetime.astro";
+
+type Props = {
+  posts: CollectionEntry<"blog">[];
+};
+
+const { posts } = Astro.props;
+---
+
+{
+  posts.length > 0 && (
+    <section class="mt-10">
+      <h2 class="text-xl font-semibold tracking-wide">继续阅读</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map(post => (
+          <li class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30">
+            <a href={getPath(post.id, post.filePath)} class="group block">
+              <h3 class="text-base leading-snug font-semibold group-hover:text-accent">
+                {post.data.title}
+              </h3>
+              <div class="mt-2">
+                <Datetime
+                  pubDatetime={post.data.pubDatetime}
+                  modDatetime={post.data.modDatetime}
+                  timezone={post.data.timezone}
+                  size="sm"
+                />
+              </div>
+              <p class="mt-2 line-clamp-3 text-sm opacity-75">
+                {post.data.description}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

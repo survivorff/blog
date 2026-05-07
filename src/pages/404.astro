@@ -3,26 +3,96 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 ---
 
-<Layout title={`404 Not Found | ${SITE.title}`}>
+<Layout title={`404 | ${SITE.title}`}>
   <Header />
 
   <main
     id="main-content"
-    class="app-layout flex flex-1 items-center justify-center"
+    class="app-layout flex flex-1 flex-col items-center justify-center px-4 py-16"
   >
-    <div class="mb-14 flex flex-col items-center justify-center">
-      <h1 class="text-9xl font-bold text-accent">404</h1>
-      <span aria-hidden="true">¯\_(ツ)_/¯</span>
-      <p class="mt-4 text-2xl sm:text-3xl">Page Not Found</p>
-      <LinkButton
-        href="/"
-        class="my-6 text-lg underline decoration-dashed underline-offset-8"
-      >
-        Go back home
-      </LinkButton>
+    <div class="mx-auto w-full max-w-xl">
+      <pre
+        class="overflow-x-auto text-xs text-accent opacity-70 sm:text-sm"><code>{`$ cat /dev/page
+cat: /dev/page: No such file or directory
+
+$ _`}</code></pre>
+
+      <h1 class="mt-6 text-5xl font-bold tracking-tight sm:text-6xl">404</h1>
+
+      <p class="mt-3 text-xl sm:text-2xl">这个页面被夹了 🥪</p>
+
+      <p class="mt-3 text-base opacity-75">
+        可能是链接过期、页面被移走了，或者 MEV 机器人把它偷走了。
+        下面这些地方可能更有意思：
+      </p>
+
+      <div class="mt-8 grid gap-3 sm:grid-cols-2">
+        <LinkButton
+          href="/"
+          class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-semibold">首页</div>
+              <div class="mt-1 text-sm opacity-70">看看最新文章</div>
+            </div>
+            <IconArrowRight class="flex-none opacity-60" />
+          </div>
+        </LinkButton>
+
+        <LinkButton
+          href="/posts/"
+          class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-semibold">所有文章</div>
+              <div class="mt-1 text-sm opacity-70">浏览完整文章列表</div>
+            </div>
+            <IconArrowRight class="flex-none opacity-60" />
+          </div>
+        </LinkButton>
+
+        <LinkButton
+          href="/archives/"
+          class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-semibold">归档</div>
+              <div class="mt-1 text-sm opacity-70">按时间查看</div>
+            </div>
+            <IconArrowRight class="flex-none opacity-60" />
+          </div>
+        </LinkButton>
+
+        <LinkButton
+          href="/tags/"
+          class="rounded-lg border border-border p-4 transition hover:border-accent hover:bg-muted/30"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-semibold">标签</div>
+              <div class="mt-1 text-sm opacity-70">按主题查看</div>
+            </div>
+            <IconArrowRight class="flex-none opacity-60" />
+          </div>
+        </LinkButton>
+      </div>
+
+      <p class="mt-8 text-sm opacity-60">
+        或者直接
+        <a
+          href="/search/"
+          class="text-accent underline decoration-dashed underline-offset-4 hover:no-underline"
+          >搜索</a
+        >
+        你想找的内容。
+      </p>
     </div>
   </main>
 

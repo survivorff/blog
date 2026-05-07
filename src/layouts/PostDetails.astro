@@ -12,6 +12,9 @@ import BackToTopButton from "@/components/BackToTopButton.astro";
 import Comments from "@/components/Comments.astro";
 import ReadingTime from "@/components/ReadingTime.astro";
 import SeriesNav from "@/components/SeriesNav.astro";
+import RelatedPosts from "@/components/RelatedPosts.astro";
+import SubscribeCTA from "@/components/SubscribeCTA.astro";
+import { getRelatedPosts } from "@/utils/getRelatedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -84,6 +87,9 @@ const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
 const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost =
   currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+
+/* ========== Related Posts ========== */
+const relatedPosts = getRelatedPosts(post, posts, 3);
 ---
 
 <Layout {...layoutProps}>
@@ -164,6 +170,14 @@ const nextPost =
           </a>
         )
       }
+    </div>
+
+    <div data-pagefind-ignore>
+      <RelatedPosts posts={relatedPosts} />
+    </div>
+
+    <div data-pagefind-ignore>
+      <SubscribeCTA />
     </div>
 
     <hr class="my-6 border-dashed" data-pagefind-ignore />
