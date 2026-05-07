@@ -2,7 +2,14 @@ import satori from "satori";
 import { SITE } from "@/config";
 import loadGoogleFonts from "../loadGoogleFont";
 
+/**
+ * 站点主 OG 图 (1200 × 630)
+ *
+ * 用于首页、about 等非文章页的分享卡片
+ */
 export default async () => {
+  const hostname = new URL(SITE.website).hostname;
+
   return satori(
     {
       type: "div",
@@ -12,107 +19,121 @@ export default async () => {
           width: "100%",
           height: "100%",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: "column",
+          padding: "56px 64px",
+          fontFamily: "IBM Plex Mono, monospace",
         },
         children: [
+          // 顶部：站点 logo
           {
             type: "div",
             props: {
               style: {
-                position: "absolute",
-                top: "-1px",
-                right: "-1px",
-                border: "4px solid #000",
-                background: "#ecebeb",
-                opacity: "0.9",
-                borderRadius: "4px",
                 display: "flex",
-                justifyContent: "center",
-                margin: "2.5rem",
-                width: "88%",
-                height: "80%",
+                alignItems: "center",
+                gap: "14px",
               },
+              children: [
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "12px",
+                      background: "#000",
+                      color: "#fefbfb",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "36px",
+                      fontWeight: "bold",
+                    },
+                    children: "s",
+                  },
+                },
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      fontSize: "24px",
+                      color: "#555",
+                      fontWeight: 500,
+                    },
+                    children: hostname,
+                  },
+                },
+              ],
             },
           },
+
+          // 中间：站点标题 + 描述
           {
             type: "div",
             props: {
               style: {
-                border: "4px solid #000",
-                background: "#fefbfb",
-                borderRadius: "4px",
+                flex: 1,
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
-                margin: "2rem",
-                width: "88%",
-                height: "80%",
               },
-              children: {
-                type: "div",
-                props: {
-                  style: {
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    margin: "20px",
-                    width: "90%",
-                    height: "90%",
+              children: [
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      fontSize: 86,
+                      fontWeight: "bold",
+                      color: "#111",
+                      lineHeight: 1.1,
+                    },
+                    children: SITE.title,
                   },
-                  children: [
-                    {
-                      type: "div",
-                      props: {
-                        style: {
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: "90%",
-                          maxHeight: "90%",
-                          overflow: "hidden",
-                          textAlign: "center",
-                        },
-                        children: [
-                          {
-                            type: "p",
-                            props: {
-                              style: { fontSize: 72, fontWeight: "bold" },
-                              children: SITE.title,
-                            },
-                          },
-                          {
-                            type: "p",
-                            props: {
-                              style: { fontSize: 28 },
-                              children: SITE.desc,
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      type: "div",
-                      props: {
-                        style: {
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          width: "100%",
-                          marginBottom: "8px",
-                          fontSize: 28,
-                        },
-                        children: {
-                          type: "span",
-                          props: {
-                            style: { overflow: "hidden", fontWeight: "bold" },
-                            children: new URL(SITE.website).hostname,
-                          },
-                        },
-                      },
-                    },
-                  ],
                 },
+                {
+                  type: "div",
+                  props: {
+                    style: {
+                      marginTop: "20px",
+                      fontSize: 28,
+                      color: "#555",
+                      lineHeight: 1.4,
+                      maxWidth: "900px",
+                    },
+                    children: SITE.desc,
+                  },
+                },
+              ],
+            },
+          },
+
+          // 底部：作者标识
+          {
+            type: "div",
+            props: {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                marginTop: "auto",
+                fontSize: 24,
+                color: "#333",
               },
+              children: [
+                {
+                  type: "span",
+                  props: {
+                    style: { color: "#888" },
+                    children: "@",
+                  },
+                },
+                {
+                  type: "span",
+                  props: {
+                    style: { fontWeight: "bold" },
+                    children: SITE.author,
+                  },
+                },
+              ],
             },
           },
         ],
@@ -122,7 +143,9 @@ export default async () => {
       width: 1200,
       height: 630,
       embedFont: true,
-      fonts: await loadGoogleFonts(SITE.title + SITE.desc + SITE.website),
+      fonts: await loadGoogleFonts(
+        SITE.title + SITE.desc + SITE.author + hostname + "@s"
+      ),
     }
   );
 };

@@ -110,14 +110,18 @@ const isActive = (path: string) => {
           <LinkButton
             href="/search"
             class:list={[
-              "focus-outline flex p-3 sm:p-1",
+              "focus-outline flex items-center gap-1 p-3 sm:p-1",
               { "[&>svg]:stroke-accent": isActive("/search") },
             ]}
-            title="Search"
+            title="Search (Press /)"
             aria-label="search"
           >
             <IconSearch />
             <span class="sr-only">Search</span>
+            <kbd
+              class="hidden items-center rounded border border-border px-1 font-mono text-[10px] opacity-60 sm:inline-flex"
+              aria-hidden="true">/</kbd
+            >
           </LinkButton>
         </li>
         {
@@ -166,4 +170,36 @@ const isActive = (path: string) => {
 
   // Runs on view transitions navigation
   document.addEventListener("astro:after-swap", toggleNav);
+
+  // 搜索快捷键：按 `/` 或 `Cmd/Ctrl+K` 跳转到搜索页
+  function setupSearchShortcut() {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      // 如果已经在 input/textarea/contenteditable 中，忽略
+      const target = e.target as HTMLElement;
+      const isTyping =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+      if (isTyping) return;
+
+      // `/` 键
+      if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        if (window.location.pathname.replace(/\/$/, "") !== "/search") {
+          window.location.href = "/search/";
+        }
+        return;
+      }
+
+      // Cmd/Ctrl + K
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (window.location.pathname.replace(/\/$/, "") !== "/search") {
+          window.location.href = "/search/";
+        }
+      }
+    });
+  }
+
+  setupSearchShortcut();
 </script>

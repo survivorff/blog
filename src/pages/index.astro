@@ -48,6 +48,20 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         交易所工程师，EVM & Solana
         双链开发者。记录链上技术、交易系统、行业观察。
       </p>
+      <p class="mt-2 text-sm opacity-70">
+        按
+        <kbd
+          class="inline-flex items-center rounded border border-border px-1.5 py-0.5 font-mono text-xs"
+          >/</kbd
+        >
+        搜索文章 · 订阅
+        <a
+          href="/rss.xml"
+          class="text-accent underline decoration-dashed underline-offset-4 hover:no-underline"
+          >RSS</a
+        >
+        获取更新
+      </p>
       {
         SOCIALS.length > 0 && (
           <div class="mt-4 flex max-sm:flex-col sm:items-center">
