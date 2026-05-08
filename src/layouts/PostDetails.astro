@@ -14,6 +14,8 @@ import ReadingTime from "@/components/ReadingTime.astro";
 import SeriesNav from "@/components/SeriesNav.astro";
 import RelatedPosts from "@/components/RelatedPosts.astro";
 import SubscribeCTA from "@/components/SubscribeCTA.astro";
+import FloatingToc from "@/components/FloatingToc.astro";
+import ImageLightbox from "@/components/ImageLightbox.astro";
 import { getRelatedPosts } from "@/utils/getRelatedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
@@ -95,6 +97,7 @@ const relatedPosts = getRelatedPosts(post, posts, 3);
 <Layout {...layoutProps}>
   <Header />
   <BackButton />
+  <FloatingToc />
   <main
     id="main-content"
     class:list={["app-layout pb-12", { "mt-8": !SITE.showBackButton }]}
@@ -187,6 +190,7 @@ const relatedPosts = getRelatedPosts(post, posts, 3);
     </div>
   </main>
   <Footer />
+  <ImageLightbox />
 </Layout>
 
 <script is:inline data-astro-rerun>
@@ -304,6 +308,67 @@ const relatedPosts = getRelatedPosts(post, posts, 3);
     }
   }
   attachCopyButtons();
+
+  /** Collapse long code blocks behind an expand button */
+  function attachCollapsibleCode() {
+    const MAX_LINES = 20;
+    const LINE_HEIGHT_PX = 22;
+    const MAX_HEIGHT = MAX_LINES * LINE_HEIGHT_PX;
+
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+    for (const pre of codeBlocks) {
+      const code = pre.querySelector("code");
+      if (!code) continue;
+
+      // 用代码文本的换行数估算行数
+      const text = code.innerText || "";
+      const lineCount = text.split("\n").length;
+      if (lineCount <= MAX_LINES + 3) continue; // 短代码不折叠
+
+      // 给容器设置最大高度 + 渐变遮罩 + 展开按钮
+      const wrapper = pre.parentElement;
+      if (!wrapper) continue;
+
+      pre.style.maxHeight = MAX_HEIGHT + "px";
+      pre.style.overflow = "hidden";
+      pre.style.position = "relative";
+
+      const fade = document.createElement("div");
+      fade.className = "code-fade";
+      fade.style.cssText =
+        "position:absolute; left:0; right:0; bottom:0; height:60px; pointer-events:none; background:linear-gradient(to bottom, transparent, var(--shiki-light-bg)); z-index:1;";
+      wrapper.appendChild(fade);
+      // 为深色模式覆盖渐变底色
+      const darkFade = document.createElement("style");
+      darkFade.textContent = `
+        html[data-theme="dark"] .code-fade {
+          background: linear-gradient(to bottom, transparent, var(--shiki-dark-bg));
+        }
+      `;
+      document.head.appendChild(darkFade);
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.className =
+        "absolute left-1/2 -translate-x-1/2 bottom-2 z-10 rounded-md border border-border bg-background px-3 py-1 text-xs font-medium hover:border-accent hover:text-accent";
+      toggleBtn.textContent = `展开代码 (${lineCount} 行)`;
+      toggleBtn.addEventListener("click", () => {
+        const expanded = pre.dataset.expanded === "1";
+        if (expanded) {
+          pre.style.maxHeight = MAX_HEIGHT + "px";
+          pre.dataset.expanded = "0";
+          fade.style.display = "";
+          toggleBtn.textContent = `展开代码 (${lineCount} 行)`;
+        } else {
+          pre.style.maxHeight = "none";
+          pre.dataset.expanded = "1";
+          fade.style.display = "none";
+          toggleBtn.textContent = "收起";
+        }
+      });
+      wrapper.appendChild(toggleBtn);
+    }
+  }
+  attachCollapsibleCode();
 
   /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>

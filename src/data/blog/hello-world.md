@@ -3,7 +3,7 @@ author: survivorff
 pubDatetime: 2026-05-06T00:00:00Z
 title: 你好，世界
 slug: hello-world
-featured: true
+featured: false
 draft: false
 tags:
   - thoughts

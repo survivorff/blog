@@ -1,0 +1,89 @@
+---
+// 浮动文章目录
+// 自动从文章中的 h2/h3 生成导航，滚动时高亮当前章节
+// 在大屏右侧显示，小屏折叠到文章顶部
+---
+
+<aside
+  id="floating-toc"
+  class="hidden xl:fixed xl:top-28 xl:right-6 xl:block xl:max-h-[70vh] xl:max-w-[220px] xl:overflow-y-auto xl:text-sm"
+  aria-label="目录"
+>
+  <div class="mb-2 text-xs font-semibold tracking-wide uppercase opacity-60">
+    目录
+  </div>
+  <nav id="toc-nav" class="border-l border-border/60"></nav>
+</aside>
+
+<script is:inline>
+  (function () {
+    function buildToc() {
+      const nav = document.getElementById("toc-nav");
+      const article = document.getElementById("article");
+      const aside = document.getElementById("floating-toc");
+      if (!nav || !article || !aside) return;
+
+      const headings = article.querySelectorAll("h2, h3");
+      if (headings.length < 2) {
+        aside.style.display = "none";
+        return;
+      }
+      aside.style.display = "";
+
+      nav.innerHTML = "";
+      const items = [];
+      headings.forEach(h => {
+        if (!h.id) return;
+        const a = document.createElement("a");
+        a.href = `#${h.id}`;
+        a.textContent = (h.textContent || "").replace(/#$/, "").trim();
+        a.dataset.target = h.id;
+        const isH3 = h.tagName === "H3";
+        a.className =
+          "block py-1 border-l-2 border-transparent transition-all opacity-70 hover:opacity-100 hover:text-accent " +
+          (isH3 ? "ps-6 text-xs" : "ps-3 text-sm");
+        nav.appendChild(a);
+        items.push({ id: h.id, heading: h, link: a });
+      });
+
+      // 滚动时高亮
+      let activeId = "";
+      function onScroll() {
+        const scrollY = window.scrollY + 120;
+        let current = items[0]?.id || "";
+        for (const item of items) {
+          if (item.heading.offsetTop <= scrollY) {
+            current = item.id;
+          } else {
+            break;
+          }
+        }
+        if (current !== activeId) {
+          activeId = current;
+          items.forEach(item => {
+            if (item.id === activeId) {
+              item.link.classList.add(
+                "text-accent",
+                "border-accent",
+                "opacity-100"
+              );
+              item.link.classList.remove("border-transparent", "opacity-70");
+            } else {
+              item.link.classList.remove(
+                "text-accent",
+                "border-accent",
+                "opacity-100"
+              );
+              item.link.classList.add("border-transparent", "opacity-70");
+            }
+          });
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    document.addEventListener("astro:page-load", buildToc);
+  })();
+</script>
