@@ -112,6 +112,45 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       )
     }
 
+    <section id="categories-quick" class="border-b border-border pt-10 pb-6">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-2xl font-semibold tracking-wide">分类</h2>
+        <a
+          href="/categories/"
+          class="text-sm opacity-70 hover:text-accent hover:opacity-100"
+        >
+          查看全部 →
+        </a>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <a
+          href="/tags/web3/"
+          class="rounded-md border border-border px-3 py-1.5 text-sm transition hover:border-accent hover:text-accent"
+          >🔗 Web3 实战</a
+        >
+        <a
+          href="/tags/engineering/"
+          class="rounded-md border border-border px-3 py-1.5 text-sm transition hover:border-accent hover:text-accent"
+          >🛠 工程方法</a
+        >
+        <a
+          href="/tags/ai/"
+          class="rounded-md border border-border px-3 py-1.5 text-sm transition hover:border-accent hover:text-accent"
+          >🤖 AI 时代</a
+        >
+        <a
+          href="/tags/thoughts/"
+          class="rounded-md border border-border px-3 py-1.5 text-sm transition hover:border-accent hover:text-accent"
+          >💭 思考随笔</a
+        >
+        <a
+          href="/tags/notes/"
+          class="rounded-md border border-border px-3 py-1.5 text-sm transition hover:border-accent hover:text-accent"
+          >📚 学习笔记</a
+        >
+      </div>
+    </section>
+
     {
       featuredPosts.length > 0 && (
         <section

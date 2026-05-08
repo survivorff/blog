@@ -1,0 +1,96 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+import postFilter from "@/utils/postFilter";
+
+// 分类定义
+// 每个分类对应一个主 tag（slug）
+const CATEGORIES = [
+  {
+    slug: "web3",
+    name: "Web3 实战",
+    icon: "🔗",
+    desc: "链上技术、DeFi、交易系统、MEV 等深度内容。",
+  },
+  {
+    slug: "engineering",
+    name: "工程方法",
+    icon: "🛠",
+    desc: "架构设计、系统优化、开发实践。",
+  },
+  {
+    slug: "ai",
+    name: "AI 时代",
+    icon: "🤖",
+    desc: "AI 工具、AI × 开发、AI × Web3。",
+  },
+  {
+    slug: "thoughts",
+    name: "思考随笔",
+    icon: "💭",
+    desc: "个人经历、行业观察、职业发展。",
+  },
+  {
+    slug: "notes",
+    name: "学习笔记",
+    icon: "📚",
+    desc: "读书、源码、协议拆解、术语整理。",
+  },
+] as const;
+
+const allPosts = (await getCollection("blog")).filter(postFilter);
+
+// 统计每个分类的文章数
+const categoriesWithCount = CATEGORIES.map(cat => {
+  const count = allPosts.filter(p => p.data.tags?.includes(cat.slug)).length;
+  return { ...cat, count };
+});
+
+const totalPosts = allPosts.length;
+---
+
+<Layout title={`分类 | ${SITE.title}`}>
+  <Header />
+  <main id="main-content" class="app-layout">
+    <div class="pt-8 pb-6">
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">分类</h1>
+      <p class="mt-2 opacity-75">
+        共 {totalPosts} 篇文章，分 {CATEGORIES.length} 大类。点击进入对应分类。
+      </p>
+    </div>
+
+    <div class="grid gap-4 pb-12 sm:grid-cols-2">
+      {
+        categoriesWithCount.map(cat => (
+          <a
+            href={cat.count > 0 ? `/tags/${cat.slug}/` : "#"}
+            class:list={[
+              "block rounded-lg border border-border p-5 transition",
+              cat.count > 0
+                ? "cursor-pointer hover:border-accent hover:bg-muted/30"
+                : "cursor-not-allowed opacity-50",
+            ]}
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">{cat.icon}</span>
+                <h2 class="text-xl font-semibold">{cat.name}</h2>
+              </div>
+              <span class="rounded-md border border-border px-2 py-0.5 text-sm opacity-70">
+                {cat.count} 篇
+              </span>
+            </div>
+            <p class="mt-2 text-sm opacity-80">{cat.desc}</p>
+            {cat.count === 0 && (
+              <p class="mt-2 text-xs italic opacity-60">（暂未收录）</p>
+            )}
+          </a>
+        ))
+      }
+    </div>
+  </main>
+  <Footer />
+</Layout>

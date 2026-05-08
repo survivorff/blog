@@ -1,12 +1,12 @@
 ---
 // 在每个文章页加载 Mermaid，将 ```mermaid 代码块渲染为图表
-// 仅在页面中存在 <pre><code class="language-mermaid"> 时才加载 mermaid 脚本
+// Shiki 给 mermaid 代码块加的标记是 <pre data-language="mermaid">
 ---
 
 <script is:inline>
   async function renderMermaid() {
-    const codeBlocks = document.querySelectorAll("pre > code.language-mermaid");
-    if (codeBlocks.length === 0) return;
+    const preBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+    if (preBlocks.length === 0) return;
 
     // 动态导入 mermaid，仅在需要时加载
     const mermaid = (
@@ -23,10 +23,9 @@
       fontFamily: "inherit",
     });
 
-    codeBlocks.forEach((codeEl, index) => {
-      const code = codeEl.textContent || "";
-      const pre = codeEl.parentElement;
-      if (!pre) return;
+    preBlocks.forEach((pre, index) => {
+      // 从代码块中提取原始文本（Shiki 会把代码包在嵌套 span 里）
+      const code = pre.textContent || "";
 
       const container = document.createElement("div");
       container.className =
