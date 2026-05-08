@@ -1,6 +1,6 @@
 ---
 author: survivorff
-pubDatetime: 2026-05-18T10:00:00Z
+pubDatetime: 2026-05-08T06:00:00Z
 title: Pump.fun 凭空造了一个十亿美元市场
 slug: how-pumpfun-created-market
 featured: false
