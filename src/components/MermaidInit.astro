@@ -5,12 +5,16 @@
 
 <script is:inline>
   async function renderMermaid() {
-    const preBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+    const preBlocks = document.querySelectorAll(
+      'pre[data-language="mermaid"]'
+    );
     if (preBlocks.length === 0) return;
 
     // 动态导入 mermaid，仅在需要时加载
     const mermaid = (
-      await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")
+      await import(
+        "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+      )
     ).default;
 
     const theme =
@@ -24,8 +28,13 @@
     });
 
     preBlocks.forEach((pre, index) => {
-      // 从代码块中提取原始文本（Shiki 会把代码包在嵌套 span 里）
-      const code = pre.textContent || "";
+      // 关键：只从 <code> 内部取代码，避免把 Copy 按钮等其他注入元素也读进来
+      // Shiki 的结构：<pre><code><span class="line">...</span></code></pre>
+      const codeEl = pre.querySelector(":scope > code");
+      const rawText = codeEl ? codeEl.textContent : pre.textContent;
+      const code = (rawText || "").trim();
+
+      if (!code) return;
 
       const container = document.createElement("div");
       container.className =
@@ -49,5 +58,11 @@
     });
   }
 
-  document.addEventListener("astro:page-load", renderMermaid);
+  // 延迟一下再执行，确保 Copy 按钮等其他 inline script 都已运行
+  document.addEventListener("astro:page-load", () => {
+    // rAF + setTimeout 双保险，让 mermaid 跑在所有其他 DOM 操作之后
+    requestAnimationFrame(() => {
+      setTimeout(renderMermaid, 0);
+    });
+  });
 </script>
