@@ -1,10 +1,10 @@
 ---
 author: Frank Fu
-pubDatetime: 2026-05-11T20:00:00+08:00
+pubDatetime: 2026-05-11T20:00:17+08:00
 title: 你的 100 美元 meme 买单,实际付了 107 美元 —— 那多出来的 7 块去哪了?
 slug: anatomy-of-100-dollar-meme-buy
 featured: true
-draft: true
+draft: false
 tags:
   - solana
   - meme
@@ -13,19 +13,6 @@ tags:
   - engineering
 description: UI 显示手续费 1%,账单真实付了 7%。一笔 $100 meme 买单的完整 7 步解剖 + 2024-2026 meme 市场食物链变迁。Web3 Insider 开篇同步中文版。
 ---
-
-<!--
-  openclaw-scheduled-publish:
-    target_time: 2026-05-11T20:00:00+08:00
-    auto_publish: true
-    managed_by: openclaw
-    primary_language_url: https://github.com/survivorff/web3-insider/blob/main/articles/01-anatomy-of-100-dollar-meme-buy.md
-  到点 OpenClaw 会:
-    1. 把本文件从 _drafts/ move 到 src/data/blog/
-    2. frontmatter 的 draft: true 改成 draft: false
-    3. pubDatetime 更新为当前时间戳
-    4. git commit + push,触发 blog 部署
--->
 
 *Frank · 2026 年 5 月 · 约 8000 字 · 阅读需 25 分钟*
 
