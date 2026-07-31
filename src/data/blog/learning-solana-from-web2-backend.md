@@ -1,16 +1,18 @@
 ---
 author: survivorff
-pubDatetime: 2026-06-01T10:00:00Z
+pubDatetime: 2026-07-31T11:00:00+08:00
 title: 从 Web2 后端视角学 Solana 编程：一份真诚的路线图
 slug: learning-solana-from-web2-backend
 featured: false
-draft: true
+draft: false
 tags:
-  - notes
-  - solana
   - engineering
+  - solana
   - tutorial
 description: 作为一个传统后端转 Web3 的人，我记录从零学 Solana 开发的完整路径，避开我踩过的所有坑。
+series:
+  name: Solana 后端视角
+  order: 1
 ---
 
 ## 为什么写这篇
@@ -228,10 +230,11 @@ Solana 的 `solana-test-validator` 是强大的，但真实环境的坑它测不
 
 ## 下一步
 
-这篇是入门路径。接下来我会写：
+这篇是入门路径。顺着往下读：
 
-- 《Solana 账户模型详解：从 Web2 数据库视角类比》
-- 《Anchor 的魔法：一个框架是如何把 Rust 变简单的》
-- 《一个完整的 Solana Telegram Bot：代码走读》
+- [Solana 账户模型详解：从 Web2 数据库视角类比](/posts/solana-account-model/) —— 本系列第 2 篇，把上面"第 1 阶段"的 Account 概念彻底讲透
+- [MEV 在 Solana 上是怎么运作的](/posts/mev-on-solana-explained/) —— 本系列第 3 篇，对应上面"第 4 阶段"的 Jito / MEV 部分
+- [做一个 Telegram 交易 Bot 到底有多难](/posts/telegram-trading-bot/) —— 一个真实项目会遇到的全部工程问题
+- [从 Web2 转 Web3 后端：一个工程师的生存笔记](/posts/web2-to-web3-survival/) —— 这条路的心态和收入侧记
 
-想看的话 [订阅 RSS](/rss.xml) 或 [关注 X](https://x.com/FrankFu2262)。
+想看后续 [订阅 RSS](/rss.xml) 或 [关注 X](https://x.com/FrankFu2262)。

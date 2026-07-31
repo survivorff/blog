@@ -1,16 +1,18 @@
 ---
 author: survivorff
-pubDatetime: 2026-06-12T10:00:00Z
+pubDatetime: 2026-07-31T14:00:00+08:00
 title: Meme 交易平台的牛熊切换：一个平台方的生存笔记
 slug: meme-market-cycles
 featured: false
-draft: true
+draft: false
 tags:
   - web3
   - solana
-  - thoughts
   - review
 description: 从 2024 年初到现在，我经历了 meme 交易完整的牛熊周期。这是平台方视角的生存战记录。
+series:
+  name: Meme 交易平台深挖
+  order: 7
 ---
 
 ## 为什么写这篇
@@ -20,6 +22,8 @@ Meme 交易这个行业周期特别快。2024 年初爆发，2025 年 Q1 达到�
 我在里面做平台方，亲眼看到同行一个个起来、赚钱、收缩、倒闭。这篇总结我观察到的生存法则。
 
 对想进入这行的人、对想了解这行的人，应该都有参考价值。
+
+> 这是「Meme 交易平台深挖」系列的收尾一篇。前面几篇拆的是**技术**（[架构](/posts/exchange-engineer-view-of-meme/)、[选链](/posts/why-solana-won-meme/)、[交易链路](/posts/lifecycle-of-solana-tx/)、[护城河](/posts/meme-platform-real-moat/)），这一篇拆的是**周期与生意**。
 
 ---
 
@@ -241,6 +245,15 @@ Meme 交易平台这 2 年教会我的最重要一课：
 > **在快周期行业里，你的主要敌人不是竞争对手，是周期本身。**
 
 活着，是一种技能。
+
+---
+
+## 延伸阅读
+
+- [交易所工程师眼中的 Meme 交易世界](/posts/exchange-engineer-view-of-meme/) —— 系列开篇，这个行业的全景
+- [Pump.fun 凭空造了一个十亿美元市场](/posts/how-pumpfun-created-market/) —— 引爆这轮周期的那个产品创新
+- [头部 Meme 平台月烧 $700K，钱花在什么上](/posts/meme-platform-real-moat/) —— 寒冬里最先压垮平台的成本结构
+- [在交易所做后端：我学到的 10 个反直觉的事](/posts/exchange-backend-lessons/) —— 穿越周期靠的是工程能力
 
 ---
 

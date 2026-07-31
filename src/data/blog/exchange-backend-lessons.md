@@ -1,13 +1,12 @@
 ---
 author: survivorff
-pubDatetime: 2026-06-08T10:00:00Z
+pubDatetime: 2026-07-31T09:00:00+08:00
 title: 在交易所做后端：我学到的 10 个反直觉的事
 slug: exchange-backend-lessons
 featured: false
-draft: true
+draft: false
 tags:
   - engineering
-  - thoughts
   - backend
   - review
 description: 交易所的系统和普通互联网产品差别巨大。这些反直觉的经验只有在里面做过才会真正理解。
@@ -20,6 +19,8 @@ description: 交易所的系统和普通互联网产品差别巨大。这些反�
 转到交易所做了几年后，才发现**交易系统是完全不同的物种**。不是简单的"流量更大"，而是从设计思路到工程哲学都不一样。
 
 这篇总结 10 个让我一度惊讶、后来认同的观点。如果你也在做交易相关系统，或者想去做，这些经验可能帮你少走弯路。
+
+> 这篇讲的是**工程哲学层面**的差异。如果你想看具体踩过的技术坑，可以配合[《做交易所 Web3 后端两年，多链扩展的三个血泪教训》](/posts/multi-chain-exchange-pitfalls/)一起读；转型路径本身我写在[《从 Web2 转 Web3 后端：一个工程师的生存笔记》](/posts/web2-to-web3-survival/)。
 
 ---
 
@@ -219,6 +220,14 @@ description: 交易所的系统和普通互联网产品差别巨大。这些反�
 4. **理解"金钱的重量"** —— 你的代码管着真金白银
 
 这些经验不只对交易所有用，对任何需要高可靠的系统都适用。
+
+---
+
+## 延伸阅读
+
+- [做交易所 Web3 后端两年，多链扩展的三个血泪教训](/posts/multi-chain-exchange-pitfalls/) —— 本文的"具体案例版"，三个真实的技术坑
+- [从 Web2 转 Web3 后端：一个工程师的生存笔记](/posts/web2-to-web3-survival/) —— 转型的动机、挫败和收获
+- [头部 Meme 平台月烧 $700K，钱花在什么上](/posts/meme-platform-real-moat/) —— 高可靠系统的成本到底花在哪
 
 ---
 

@@ -1,13 +1,12 @@
 ---
 author: survivorff
-pubDatetime: 2026-06-10T10:00:00Z
+pubDatetime: 2026-07-31T10:00:00+08:00
 title: 开发者的 AI Prompt 模式库：我每天都在用的 15 个模板
 slug: ai-prompt-patterns-for-devs
 featured: false
-draft: true
+draft: false
 tags:
   - ai
-  - engineering
   - tools
   - tutorial
 description: 一年多 AI 工具使用经验，沉淀出的高频 Prompt 模板。直接复用，效率翻倍。
@@ -22,6 +21,8 @@ description: 一年多 AI 工具使用经验，沉淀出的高频 Prompt 模板�
 同样的问题，好 prompt 和坏 prompt 给出的答案质量差 5-10 倍。
 
 这篇文章把我日常高频使用的 15 个 prompt 模板整理出来，分类归档。直接抄走改参数就能用。
+
+> 我在[《AI 是工程师的杠杆，不是替代品》](/posts/ai-as-engineering-leverage/)里提过一个判断：**调 prompt 比学新技能回报更高**。这篇就是那句话的"施工图"——把我调出来的模板全部摊开。
 
 ---
 
@@ -381,6 +382,14 @@ AI 工具的效能不取决于你用哪个产品，取决于你怎么提问。
 这 15 个模板我每天都在用。**我建议你收藏这篇，遇到对应场景直接复制模板，改参数，用**。
 
 用熟以后你会发展出自己的模板。**Prompt 模板库是个人工程师的资产，值得长期维护**。
+
+---
+
+## 延伸阅读
+
+- [AI 是工程师的杠杆，不是替代品](/posts/ai-as-engineering-leverage/) —— AI 擅长什么、做不好什么，以及它怎么改变我的工作习惯
+- [用 AI 从零搭一个技术博客：完整的过程和心得](/posts/building-blog-with-ai/) —— 这些模板在一个真实项目里的实战记录
+- [我用 AI 给自己写了个找工作雷达 job-radar](/posts/job-radar-build/) —— 另一个用 AI 从 0 做完的小工具
 
 ---
 

@@ -1,16 +1,18 @@
 ---
 author: survivorff
-pubDatetime: 2026-06-05T10:00:00Z
+pubDatetime: 2026-07-31T13:00:00+08:00
 title: Solana 账户模型详解：从 Web2 数据库视角类比
 slug: solana-account-model
 featured: false
-draft: true
+draft: false
 tags:
-  - notes
-  - solana
   - engineering
+  - solana
   - deep-dive
 description: Solana 的 Account 模型是它的核心设计。用后端工程师熟悉的数据库概念来理解它，会快 10 倍。
+series:
+  name: Solana 后端视角
+  order: 2
 ---
 
 ## 为什么这个模型重要
@@ -312,4 +314,12 @@ Solana 的 Account 模型：
 
 ---
 
-_下一篇会讲 Anchor 框架是如何包装这些底层概念、让开发变简单的。[订阅](/rss.xml) 或[关注](https://x.com/FrankFu2262)。_
+## 延伸阅读
+
+- [从 Web2 后端视角学 Solana 编程：一份真诚的路线图](/posts/learning-solana-from-web2-backend/) —— 本系列第 1 篇，完整的学习路径
+- [MEV 在 Solana 上是怎么运作的](/posts/mev-on-solana-explained/) —— 本系列第 3 篇，account 模型之上的生态现实
+- [一笔 Solana 交易的一生](/posts/lifecycle-of-solana-tx/) —— 这些 account 在一笔真实交易里是怎么被读写的
+
+---
+
+_更多 Solana 深度内容：[订阅](/rss.xml) 或[关注](https://x.com/FrankFu2262)。_
