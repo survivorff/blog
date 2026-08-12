@@ -1,10 +1,10 @@
 ---
 author: survivorff
-pubDatetime: 2026-08-06T20:00:00+08:00
+pubDatetime: 2026-07-31T17:00:00+08:00
 title: 两条链，一套代码：Polymarket 与 predict.fun 的同构与陷阱
 slug: polymarket-predictfun-adapter-traps
 featured: false
-draft: true
+draft: false
 tags:
   - web3
   - evm

@@ -1,10 +1,10 @@
 ---
 author: survivorff
-pubDatetime: 2026-08-04T20:00:00+08:00
+pubDatetime: 2026-07-31T16:00:00+08:00
 title: 同一个事件，在两个平台是两个世界——预测市场聚合器的第一个难题
 slug: prediction-market-event-matching
 featured: false
-draft: true
+draft: false
 tags:
   - web3
   - trading

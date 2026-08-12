@@ -1,10 +1,10 @@
 ---
 author: survivorff
-pubDatetime: 2026-08-11T20:00:00+08:00
+pubDatetime: 2026-07-31T18:00:00+08:00
 title: 跨平台价差不等于套利：预测市场聚合器的价格归一化
 slug: prediction-market-price-normalization
 featured: false
-draft: true
+draft: false
 tags:
   - web3
   - trading
