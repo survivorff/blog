@@ -4,6 +4,7 @@ import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
 import ReadingTime from "./ReadingTime.astro";
+import SeriesBadge from "./SeriesBadge.astro";
 
 type Props = {
   variant?: "h2" | "h3";
@@ -12,7 +13,7 @@ type Props = {
 const post = Astro.props;
 const { variant: Heading = "h2", id, data, filePath } = post;
 
-const { title, description, ...props } = data;
+const { title, description, series, ...props } = data;
 
 // 从 remark 插件注入的 frontmatter 中取阅读时间
 let readingMinutes = 1;
@@ -46,5 +47,12 @@ try {
     <Datetime {...props} />
     <ReadingTime minutes={readingMinutes} />
   </div>
-  <p>{description}</p>
+  {
+    series && (
+      <div class="mt-1.5">
+        <SeriesBadge name={series.name} order={series.order} compact />
+      </div>
+    )
+  }
+  <p class="mt-1.5">{description}</p>
 </li>

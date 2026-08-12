@@ -1,0 +1,176 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import { SITE } from "@/config";
+import { getPath } from "@/utils/getPath";
+import { getAllSeries } from "@/utils/getSeries";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("blog");
+  const allSeries = getAllSeries(posts);
+
+  return allSeries.map(series => ({
+    params: { series: series.slug },
+    props: { series },
+  }));
+}) satisfies GetStaticPaths;
+
+const { series } = Astro.props;
+const { name, icon, desc, track, status, planned, posts } = series;
+
+const count = posts.length;
+const isOngoing = status === "ongoing";
+const total = planned && planned > count ? planned : count;
+const pct = Math.round((count / total) * 100);
+---
+
+<Layout
+  title={`${name} | 专题 | ${SITE.title}`}
+  description={desc}
+>
+  <Header />
+  <main id="main-content" class="app-layout">
+    <nav class="pt-6 text-sm opacity-70" aria-label="面包屑">
+      <a href="/" class="hover:text-accent">首页</a>
+      <span class="mx-1.5" aria-hidden="true">›</span>
+      <a href="/series/" class="hover:text-accent">专题</a>
+      <span class="mx-1.5" aria-hidden="true">›</span>
+      <span aria-current="page">{name}</span>
+    </nav>
+
+    <section class="border-b border-border pt-6 pb-8">
+      <div class="flex items-start gap-3">
+        <span class="text-4xl leading-none" aria-hidden="true">{icon}</span>
+        <div class="min-w-0">
+          <h1 class="text-3xl font-bold tracking-tight break-words sm:text-4xl">
+            {name}
+          </h1>
+          <div class="mt-2 flex flex-wrap items-center gap-2 text-sm">
+            <span class="rounded border border-border px-2 py-0.5 opacity-75">
+              {track}
+            </span>
+            <span
+              class:list={[
+                "rounded px-2 py-0.5",
+                isOngoing
+                  ? "bg-accent/15 text-accent"
+                  : "border border-border opacity-75",
+              ]}
+            >
+              {isOngoing ? "连载中" : "已完结"}
+            </span>
+            <span class="opacity-60">{count} 篇</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-4 max-w-2xl opacity-85">{desc}</p>
+
+      {
+        planned && planned > count && (
+          <div class="mt-4 max-w-sm">
+            <div
+              class="h-1.5 w-full overflow-hidden rounded-full bg-border"
+              role="progressbar"
+              aria-valuenow={count}
+              aria-valuemin="0"
+              aria-valuemax={total}
+              aria-label={`进度：${count} / ${total} 篇`}
+            >
+              <div
+                class="h-full rounded-full bg-accent"
+                style={`width:${pct}%`}
+              />
+            </div>
+            <p class="mt-1.5 text-xs opacity-60">
+              已发布 {count} / 计划 {total} 篇
+            </p>
+          </div>
+        )
+      }
+
+      <p class="mt-4 text-sm opacity-70">
+        建议按顺序阅读 —— 后面的文章会引用前面的结论。
+      </p>
+    </section>
+
+    <section class="pt-8 pb-12">
+      <ol class="space-y-6">
+        {
+          posts.map((post, idx) => (
+            <li class="relative flex gap-4">
+              {/* 序号 + 竖线 */}
+              <div class="flex flex-col items-center">
+                <span
+                  class="flex size-8 shrink-0 items-center justify-center rounded-full border border-border text-sm font-semibold tabular-nums"
+                  aria-hidden="true"
+                >
+                  {post.data.series?.order ?? idx + 1}
+                </span>
+                {idx < posts.length - 1 && (
+                  <span
+                    class="mt-1 w-px flex-1 bg-border"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+
+              <div class="min-w-0 flex-1 pb-2">
+                <h2 class="text-lg font-medium">
+                  <a
+                    href={getPath(post.id, post.filePath)}
+                    class="text-accent decoration-dashed underline-offset-4 hover:underline"
+                  >
+                    {post.data.title}
+                  </a>
+                </h2>
+                <div class="mt-1">
+                  <Datetime
+                    pubDatetime={post.data.pubDatetime}
+                    modDatetime={post.data.modDatetime}
+                    timezone={post.data.timezone}
+                  />
+                </div>
+                <p class="mt-2 text-sm opacity-80">{post.data.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      {
+        isOngoing && (
+          <div class="mt-10 rounded-lg border border-border bg-muted/20 p-5">
+            <p class="text-sm">
+              <strong class="text-accent">这个专题还在连载。</strong>
+              <span class="opacity-80">
+                订阅
+                <a
+                  href="/rss.xml"
+                  class="text-accent decoration-dashed underline-offset-4 hover:underline"
+                >
+                  RSS
+                </a>
+                获取更新。
+              </span>
+            </p>
+          </div>
+        )
+      }
+
+      <div class="mt-8">
+        <a
+          href="/series/"
+          class="text-sm opacity-70 hover:text-accent hover:opacity-100"
+        >
+          ← 返回全部专题
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

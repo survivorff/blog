@@ -1,0 +1,48 @@
+---
+import { getSeriesMeta } from "@/data/series";
+
+type Props = {
+  /** frontmatter 里的 series.name */
+  name: string;
+  order?: number;
+  /** 紧凑模式用于列表卡片 */
+  compact?: boolean;
+};
+
+const { name, order, compact = false } = Astro.props;
+const meta = getSeriesMeta(name);
+---
+
+{
+  meta ? (
+    <a
+      href={`/series/${meta.slug}/`}
+      class:list={[
+        "inline-flex items-center gap-1 rounded border border-border transition",
+        "hover:border-accent hover:text-accent",
+        compact ? "px-1.5 py-0.5 text-xs" : "px-2 py-0.5 text-sm",
+      ]}
+      title={`专题：${meta.name}`}
+    >
+      <span aria-hidden="true">{meta.icon}</span>
+      <span class="opacity-90">{meta.name}</span>
+      {order !== undefined && (
+        <span class="tabular-nums opacity-60">#{order}</span>
+      )}
+    </a>
+  ) : (
+    /* 未注册的系列：只展示文字，不给死链 */
+    <span
+      class:list={[
+        "inline-flex items-center gap-1 rounded border border-border opacity-70",
+        compact ? "px-1.5 py-0.5 text-xs" : "px-2 py-0.5 text-sm",
+      ]}
+    >
+      <span aria-hidden="true">📚</span>
+      <span>{name}</span>
+      {order !== undefined && (
+        <span class="tabular-nums opacity-60">#{order}</span>
+      )}
+    </span>
+  )
+}

@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
+import { getSeriesMeta } from "@/data/series";
 
 type Props = {
   currentPost: CollectionEntry<"blog">;
@@ -11,6 +12,7 @@ const { currentPost, allPosts } = Astro.props;
 
 // 找到当前系列的所有文章，按 order 排序
 const currentSeries = currentPost.data.series;
+const seriesMeta = currentSeries ? getSeriesMeta(currentSeries.name) : undefined;
 
 const seriesPosts = currentSeries
   ? allPosts
@@ -24,13 +26,30 @@ const currentIndex = seriesPosts.findIndex(p => p.id === currentPost.id);
 {
   currentSeries && seriesPosts.length > 1 && (
     <aside class="my-8 rounded-lg border border-border bg-muted/30 p-5">
-      <div class="mb-3 flex items-center gap-2 text-sm opacity-70">
-        <span>📚</span>
-        <span>
-          这是系列文章{" "}
-          <strong class="text-accent">「{currentSeries.name}」</strong>
+      <div class="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+        <span aria-hidden="true">{seriesMeta?.icon ?? "📚"}</span>
+        <span class="opacity-70">
+          这是专题{" "}
+          {seriesMeta ? (
+            <a
+              href={`/series/${seriesMeta.slug}/`}
+              class="font-semibold text-accent decoration-dashed underline-offset-4 hover:underline"
+            >
+              「{currentSeries.name}」
+            </a>
+          ) : (
+            <strong class="text-accent">「{currentSeries.name}」</strong>
+          )}
           的第 {currentIndex + 1} 篇 / 共 {seriesPosts.length} 篇
         </span>
+        {seriesMeta && (
+          <a
+            href={`/series/${seriesMeta.slug}/`}
+            class="ms-auto text-xs opacity-60 hover:text-accent hover:opacity-100"
+          >
+            专题目录 →
+          </a>
+        )}
       </div>
       <ol class="space-y-1.5 text-sm">
         {seriesPosts.map((post, idx) => {

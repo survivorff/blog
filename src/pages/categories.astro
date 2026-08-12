@@ -5,43 +5,11 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { SITE } from "@/config";
 import postFilter from "@/utils/postFilter";
+import { CATEGORIES } from "@/data/categories";
+import { getAllSeries } from "@/utils/getSeries";
 
-// 分类定义
-// 每个分类对应一个主 tag（slug）
-const CATEGORIES = [
-  {
-    slug: "web3",
-    name: "Web3 实战",
-    icon: "🔗",
-    desc: "链上技术、DeFi、交易系统、MEV 等深度内容。",
-  },
-  {
-    slug: "engineering",
-    name: "工程方法",
-    icon: "🛠",
-    desc: "架构设计、系统优化、开发实践。",
-  },
-  {
-    slug: "ai",
-    name: "AI 时代",
-    icon: "🤖",
-    desc: "AI 工具、AI × 开发、AI × Web3。",
-  },
-  {
-    slug: "thoughts",
-    name: "思考随笔",
-    icon: "💭",
-    desc: "个人经历、行业观察、职业发展。",
-  },
-  {
-    slug: "notes",
-    name: "学习笔记",
-    icon: "📚",
-    desc: "读书、源码、协议拆解、术语整理。",
-  },
-] as const;
-
-const allPosts = (await getCollection("blog")).filter(postFilter);
+const posts = await getCollection("blog");
+const allPosts = posts.filter(postFilter);
 
 // 统计每个分类的文章数
 const categoriesWithCount = CATEGORIES.map(cat => {
@@ -50,6 +18,7 @@ const categoriesWithCount = CATEGORIES.map(cat => {
 });
 
 const totalPosts = allPosts.length;
+const seriesCount = getAllSeries(posts).length;
 ---
 
 <Layout title={`分类 | ${SITE.title}`}>
@@ -59,6 +28,14 @@ const totalPosts = allPosts.length;
       <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">分类</h1>
       <p class="mt-2 opacity-75">
         共 {totalPosts} 篇文章，分 {CATEGORIES.length} 大类。点击进入对应分类。
+      </p>
+      <p class="mt-3 text-sm opacity-70">
+        想按主题连续读？去看
+        <a
+          href="/series/"
+          class="text-accent decoration-dashed underline-offset-4 hover:underline"
+          >{seriesCount} 个专题</a
+        >。
       </p>
     </div>
 
